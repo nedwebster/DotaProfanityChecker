@@ -20,3 +20,6 @@ class Player(BaseModel):
 
     def add_chat_event(self, chat_event):
         self.chat_events.append(chat_event)
+
+    def combine_chats(self):
+        self.combined_chat = self.chat_events.join(" ")

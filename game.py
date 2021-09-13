@@ -11,15 +11,30 @@ class Game(BaseModel):
     match_id: int
     players: List[Player]
     chat: List[Chat]
+    chat_assigned = False
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def _get_player_slots(self) -> list:
 
         return [x.player_slot for x in self.players]
 
-    def get_player_chat_events(self) -> list:
+    def _get_player_chat_events(self) -> list:
         """Returns all chat events that are typed by players."""
 
         return [x for x in self.chat if x.is_player_chat]
+
+    def _assign_chats(self):
+
+        if not self.chat_assigned:
+            for chat in self._get_player_chat_events():
+                for player in self.players:
+                    if chat.player_slot == player.player_slot:
+                        player.add_chat_event(chat.key)
+            self.chat_assigned = True
+        else:
+            print("Chat already assigned to players")
 
 
 if __name__ == "__main__":
@@ -28,6 +43,6 @@ if __name__ == "__main__":
 
     my_game = Game(**game_info)
 
-    game_chat = my_game.get_player_chat_events()
+    my_game._assign_chats()
 
-    print(game_chat)
+    print(my_game.players)
