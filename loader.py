@@ -1,4 +1,5 @@
 import requests
+from game import Game
 
 
 class Loader:
@@ -40,17 +41,12 @@ class Loader:
 
         return response.json()
 
-    def load_match(self):
+    def load_match(self) -> Game:
         """Pulls the match from the open dota API, validates the response,
-        then extracts the game info."""
+        then initialises a Game object from the info."""
 
         response = self._get_request(self.match_id)
         self._validate_response(response)
-        output = self._extract_game_data(response)
+        output = Game(**self._extract_game_data(response))
 
         return output
-
-
-if __name__ == "__main__":
-    my_game = Loader(match_id=6177192021).load_match()
-    print(my_game.keys())

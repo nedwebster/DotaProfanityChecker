@@ -60,17 +60,3 @@ class ProfanityChecker:
         words = self._get_words(text)
         profanities = self._check_profanities(words)
         return profanities
-
-
-if __name__ == "__main__":
-
-    SENTENCE = "This is a stupid test sentence."
-
-    prof_checker = ProfanityChecker()
-    profanity_count = prof_checker.analyse_text(SENTENCE)
-
-    print(profanity_count)
-
-    """
-    output = {'stupid': 1}
-    """

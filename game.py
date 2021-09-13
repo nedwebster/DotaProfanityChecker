@@ -3,7 +3,6 @@ from typing import List
 
 from chat import Chat
 from player import Player
-from loader import Loader
 
 
 class Game(BaseModel):
@@ -36,13 +35,7 @@ class Game(BaseModel):
         else:
             print("Chat already assigned to players")
 
-
-if __name__ == "__main__":
-
-    game_info = Loader(match_id=6176682329).load_match()
-
-    my_game = Game(**game_info)
-
-    my_game._assign_chats()
-
-    print(my_game.players)
+    def return_player_chats(self):
+        return [
+            (player.hero_id, player.combine_chat()) for player in self.players
+            ]
