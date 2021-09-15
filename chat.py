@@ -9,3 +9,6 @@ class Chat(BaseModel):
 
     def is_player_chat(self) -> bool:
         return self.type == "chat"
+
+    def is_empty(self):
+        return len(self.key) == 0
