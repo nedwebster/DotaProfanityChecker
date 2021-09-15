@@ -7,7 +7,7 @@ MATCH_ID = 6174930894
 
 if __name__ == "__main__":
 
-    my_game = Loader(match_id=MATCH_ID).load_match()
+    my_game = Loader().load_match(match_id=MATCH_ID)
     prof_checker = ProfanityChecker()
 
     output = {}
