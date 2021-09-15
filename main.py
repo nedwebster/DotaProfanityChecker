@@ -11,7 +11,7 @@ if __name__ == "__main__":
     prof_checker = ProfanityChecker()
 
     output = {}
-    for player_chat in my_game.return_player_chats():
+    for player_chat in my_game.get_player_chats():
         output[player_chat[0]] = prof_checker.analyse_text(player_chat[1])
 
     print(output)
