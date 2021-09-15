@@ -3,6 +3,7 @@ from typing import List
 
 from chat import Chat
 from player import Player
+from profanity import ProfanityChecker
 
 
 class Game(BaseModel):
@@ -11,6 +12,7 @@ class Game(BaseModel):
     players: List[Player]
     chat: List[Chat] = None
     _chat_assigned = False
+    _profanity_checker = ProfanityChecker()
 
     @property
     def chat_assigned(self):
@@ -48,3 +50,26 @@ class Game(BaseModel):
         return [
             (player.hero_id, player.combine_chat()) for player in self.players
             ]
+
+    @staticmethod
+    def _is_profanity_clean(profanity_record: dict) -> bool:
+
+        profanity_count = sum([
+            len(sub_dict) for sub_dict in profanity_record.values()
+        ])
+
+        return profanity_count == 0
+
+    def profanity_check(self):
+        """Checks the players chat for any profanity."""
+
+        profanity_record = {}
+        for player_chat in self.get_player_chats():
+            profanity_record[player_chat[0]] = (
+                self._profanity_checker.analyse_text(player_chat[1])
+            )
+
+        if self._is_profanity_clean(profanity_record):
+            print("No profanity found, what lovely players :)")
+        else:
+            print(f"Bad language detected!\n{profanity_record}")
