@@ -26,7 +26,7 @@ class Loader:
         if response.status_code == 200:
             print("Game successfully loaded!")
         else:
-            raise ValueError("match_id {match_id} not found!")
+            raise ValueError(f"match_id {match_id} not found!")
 
     @staticmethod
     def _extract_game_data(response: requests.models.Response) -> dict:
