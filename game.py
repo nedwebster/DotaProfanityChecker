@@ -11,15 +11,22 @@ class Game(BaseModel):
     match_id: int
     players: List[Player]
     chat: List[Chat] = None
-    _chat_assigned = False
+    _chat_assigned: bool = False
     _profanity_checker = ProfanityChecker()
+
+    class Config:
+        underscore_attrs_are_private = True
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     @property
     def chat_assigned(self):
         return self._chat_assigned
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    @chat_assigned.setter
+    def chat_assigned(self, value):
+        self._chat_assigned = value
 
     def _get_player_chat_events(self) -> list:
         """Returns all chat events that are typed by players."""
@@ -45,11 +52,11 @@ class Game(BaseModel):
 
     def get_player_chats(self) -> list:
         if not self._chat_assigned:
-            self._assign_chats_to_players
+            self._assign_chats_to_players()
 
         return [
             (player.hero_id, player.combine_chat()) for player in self.players
-            ]
+        ]
 
     @staticmethod
     def _is_profanity_clean(profanity_record: dict) -> bool:
