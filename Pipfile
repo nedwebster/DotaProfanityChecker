@@ -6,10 +6,11 @@ name = "pypi"
 [packages]
 pydantic = "*"
 requests = "*"
-flake8 = "*"
-dotaprofanitychecker = {path = "."}
+dota-profanity-checker = {editable = true, path = "."}
 
 [dev-packages]
+flake8 = "*"
+jupyter = "*"
 
 [requires]
 python_version = "3.8"
