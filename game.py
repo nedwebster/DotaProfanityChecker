@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from typing import List
 
 from chat import Chat
@@ -16,9 +16,16 @@ class Game(BaseModel):
 
     class Config:
         underscore_attrs_are_private = True
+        validate_assignment = True
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    @validator("chat")
+    def set_chat(cls, chat):
+        if chat is None:
+            print("Chat is empty for this game :(")
+        return chat or []
 
     @property
     def chat_assigned(self):

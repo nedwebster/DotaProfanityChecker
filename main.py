@@ -1,4 +1,3 @@
-from profanity import ProfanityChecker
 from loader import Loader
 
 
