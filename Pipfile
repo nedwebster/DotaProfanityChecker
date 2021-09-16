@@ -7,6 +7,7 @@ name = "pypi"
 pydantic = "*"
 requests = "*"
 flake8 = "*"
+dotaprofanitychecker = {path = "."}
 
 [dev-packages]
 
