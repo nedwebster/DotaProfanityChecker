@@ -1,9 +1,9 @@
 from pydantic import BaseModel, validator
 from typing import List
 
-from chat import Chat
-from player import Player
-from profanity import ProfanityChecker
+from dota_profanity_checker.chat import Chat
+from dota_profanity_checker.player import Player
+from dota_profanity_checker.profanity import ProfanityChecker
 
 
 class Game(BaseModel):

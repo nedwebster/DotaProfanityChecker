@@ -9,7 +9,7 @@ class ProfanityChecker:
         def load_profanity_list() -> str:
             """Loads the curse words from the local text file."""
 
-            with open("lookups/curse_words.txt", "r") as f:
+            with open("./lookups/curse_words.txt", "r") as f:
                 return f.read()
 
         def format_profanity_list(profanity_list: str) -> list:

@@ -1,5 +1,5 @@
 import requests
-from game import Game
+from dota_profanity_checker.game import Game
 
 
 class Loader:
