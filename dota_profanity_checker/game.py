@@ -22,7 +22,7 @@ class Game(BaseModel):
         super().__init__(**kwargs)
 
     @validator("chat")
-    def set_chat(cls, chat):
+    def chat_present(cls, chat):
         if chat is None:
             print("Chat is empty for this game :(")
         return chat or []
