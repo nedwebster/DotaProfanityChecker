@@ -1,4 +1,6 @@
+import http
 import requests
+
 from dota_profanity_checker.game import Game
 
 
@@ -25,7 +27,10 @@ class OpenDotaAPI:
         if response.status_code == 200:
             print("Game successfully loaded!")
         else:
-            raise ValueError(f"match_id {match_id} not found!")
+            code = response.status_code
+            message = http.HTTPStatus(code).name
+            raise ValueError(f"{message}: {code}")
+
 
     @staticmethod
     def _extract_game_data(response: requests.models.Response) -> dict:
