@@ -31,7 +31,6 @@ class OpenDotaAPI:
             message = http.HTTPStatus(code).name
             raise ValueError(f"{message}: {code}")
 
-
     @staticmethod
     def _extract_game_data(response: requests.models.Response) -> dict:
         """Extracts the game info from the api response."""
