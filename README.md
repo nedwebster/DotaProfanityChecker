@@ -9,7 +9,7 @@ lookups/curse_words.txt contains a large collection of curse words that some rea
 import dota_profanity_checker
 
 MATCH_ID = 3721302106
-my_game = dota_profanity_checker.Loader().load_match(MATCH_ID)
+my_game = dota_profanity_checker.OpenDotaAPI().load_match(MATCH_ID)
 
 my_game.profanity_check()
 ```

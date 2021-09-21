@@ -2,18 +2,17 @@ import requests
 from dota_profanity_checker.game import Game
 
 
-class Loader:
+class OpenDotaAPI:
     """Class to pull game info from Dota API, given a specific match ID."""
 
-    def __init__(self):
+    DOTA_API_URL = "https://api.opendota.com/api/matches/"
 
-        self._dota_api_url = "https://api.opendota.com/api/matches/"
-
-    def _get_request(self, match_id):
+    @classmethod
+    def _get_request(cls, match_id):
         """Makes the get request to the opendota api."""
         try:
             return requests.get(
-                self._dota_api_url + match_id
+                cls.DOTA_API_URL + match_id
             )
         except requests.exceptions.ConnectionError:
             raise Exception("Cannot connect to dota API")
