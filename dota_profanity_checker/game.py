@@ -3,7 +3,7 @@ from typing import List
 
 from dota_profanity_checker.chat import Chat
 from dota_profanity_checker.player import Player
-from dota_profanity_checker.profanity import ProfanityChecker
+from dota_profanity_checker.profanity_checker import ProfanityChecker
 
 
 class Game(BaseModel):
