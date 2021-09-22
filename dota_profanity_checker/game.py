@@ -7,7 +7,13 @@ from dota_profanity_checker.profanity_checker import ProfanityChecker
 
 
 class Game(BaseModel):
-    """Class representing a single dota game."""
+    """Class representing a single dota game.
+
+    WARNING! The chat attribute of this class refers to a list
+    of chat.Chat() objects. The naming is confusing, but has been
+    kept consistent with the data recieved from the opendota API.
+
+    """
     match_id: int
     players: List[Player]
     chat: List[Chat] = None
@@ -18,14 +24,14 @@ class Game(BaseModel):
         underscore_attrs_are_private = True
         validate_assignment = True
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
     @validator("chat")
     def chat_present(cls, chat):
         if chat is None:
             print("Chat is empty for this game :(")
         return chat or []
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     @property
     def chat_assigned(self):
@@ -36,15 +42,19 @@ class Game(BaseModel):
         self._chat_assigned = value
 
     def _get_player_chat_events(self) -> list:
-        """Returns all chat events that are typed by players."""
+        """Returns all player chat events in this game."""
+        return [x for x in self.chat if x.is_player_chat()]
 
-        return [x for x in self.chat if x.is_player_chat]
+    def _get_chatwheel_chat_events(self) -> list:
+        """Returns all chatwheel chat events in this game."""
+        return [x for x in self.chat if x.is_chatwheel_chat()]
 
     def _assign_chats_to_players(self):
-        """Assigns all chat events to the relevant player.
+        """Assigns all chat events in this game to relevant players.
 
         This updates the player.chat attribute for each player. If chats
         have already been assigned for this match, the process won't run.
+        This is to prevent duplicated chat items being assigned to players.
 
         """
 
@@ -64,26 +74,3 @@ class Game(BaseModel):
         return [
             (player.hero_id, player.combine_chat()) for player in self.players
         ]
-
-    @staticmethod
-    def _is_profanity_clean(profanity_record: dict) -> bool:
-
-        profanity_count = sum([
-            len(sub_dict) for sub_dict in profanity_record.values()
-        ])
-
-        return profanity_count == 0
-
-    def profanity_check(self):
-        """Checks the players chat for any profanity."""
-
-        profanity_record = {}
-        for player_chat in self.get_player_chats():
-            profanity_record[player_chat[0]] = (
-                self._profanity_checker.analyse_text(player_chat[1])
-            )
-
-        if self._is_profanity_clean(profanity_record):
-            print("No profanity found, what lovely players :)")
-        else:
-            print(f"Bad language detected!\n{profanity_record}")
