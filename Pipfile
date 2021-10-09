@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pydantic = "*"
+requests = "*"
+dota-profanity-checker = {editable = true, path = "."}
+
+[dev-packages]
+flake8 = "*"
+jupyter = "*"
+
+[requires]
+python_version = "3.8"
